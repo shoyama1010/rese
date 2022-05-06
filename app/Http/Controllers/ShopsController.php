@@ -10,15 +10,15 @@ use Carbon\Carbon;
 
 class ShopsController extends Controller
 {
-    public function getIndex()
+    public function index()
     {
         $shops = Shop::getShops();
         $areas = Area::all();
         $genres = Genre::all();
 
-        return view('index', compact("shops","areas","genres"));
+        return view('index', compact("shops", "areas", "genres"));
     }
-    public function searchShops(Request $request)
+    public function search(Request $request)
     {
         $area_name = $request['area'];
         $genre_name = $request['genre'];
@@ -28,11 +28,11 @@ class ShopsController extends Controller
         $areas = Area::all();
         $genres = Genre::all();
 
-        return view('index', compact("shops","areas","genres","area_name","genre_name","keyword"));
+        return view('index', compact("shops", "areas", "genres", "area_name", "genre_name", "keyword"));
     }
-    public function getDetail($shop_id)
+    public function detail($shop_id)
     {
-        $shop = Shop::where('id',$shop_id)->with('area', 'genre')->first();
+        $shop = Shop::find($shop_id)->with('area', 'genre')->first();
         $today = Carbon::now()->toDateString();
 
         return view('detail', compact("shop", "today"));

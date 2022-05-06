@@ -1,3 +1,8 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 /* 共通 */
 #app {
   background-color: #eeeeee;
@@ -30,7 +35,9 @@
 }
 
 .main {
-  padding: 120px 100px 0;
+  width: 85%;
+  margin: 0 auto;
+  padding: 2.5rem 0;
 }
 
 .error {

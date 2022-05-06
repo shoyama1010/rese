@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -50,15 +48,4 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Shop::class, 'likes');
     }
-    // public static function registration($request)
-    // {
-    //     $hashed_password = Hash::make($request->password);
-    //     $param = [
-    //         "name" => $request->name,
-    //         "email" => $request->email,
-    //         "password" => $hashed_password,
-    //     ];
-    //     $user = User::create($param);
-    //     return $user;
-    // }
 }

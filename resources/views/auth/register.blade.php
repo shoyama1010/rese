@@ -26,6 +26,13 @@
       <p class="error">{{ $message }}</p>
       @enderror
     </div>
+    <div class="auth-card__item">
+      <img class="auth-card__item__img" src="/img/password.png" alt="password-icon" width="25px" />
+      <input class="auth-card__item__input" type="password" placeholder="password_confirmation" name="password_confirmation" />
+      @error('passpassword-confirmationword')
+      <p class="error">{{ $message }}</p>
+      @enderror
+    </div>
     <div class="auth-card__btn">
       <input type="submit" value="登録" />
     </div>
