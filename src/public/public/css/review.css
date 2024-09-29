@@ -1,0 +1,160 @@
+/* public/css/review.css */
+
+/* メインコンテナ */
+.review {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* 左カラム (予約内容) */
+.review-left {
+    width: 30%;
+    margin-left: 50px;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.review-left h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.review-left img {
+    width: 80%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.review-left .shop-details {
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+/* 右カラム (口コミフォーム) */
+.review-right {
+    width: 50%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 50px;
+}
+
+.review-right h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.review-right .rating-stars {
+    display: flex;
+    justify-content: start;
+    margin-bottom: 20px;
+}
+
+.review-right label {
+    font-size: 24px;
+    color: #ccc;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.review-right input[type="radio"] {
+    display: none;
+}
+
+.review-right input[type="radio"]:checked~label {
+    color: #f5c518;
+}
+
+/* フォームのスタイル */
+.review-right form div {
+    margin-bottom: 20px;
+}
+
+.review-right form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.contents-form {
+    margin-left: 100px;
+    width: 200px;
+}
+
+.review-right form select,
+.review-right form textarea,
+.review-right form input[type="file"] {
+    width: 150%;
+    height: 120%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.review-right form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.text label {
+   color: black;
+}
+
+.review-right form input[type="file"] {
+    padding: 6px;
+    font-size: 14px;
+}
+
+.file label {
+   color: black;
+}
+
+/* ボタンのスタイル */
+.review-right form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.review-right form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.submit {
+    /* aligin-items: center; */
+    margin-left: 550px;
+}
+
+.Confirmation h2 {
+    margin-left: 100px;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .review-left,
+    .review-right {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+
