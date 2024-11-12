@@ -71,7 +71,6 @@ class ShopsController extends Controller
                 $shops = Shop::with('reviews')->inRandomOrder()->get();
                 break;
         }
-
         return view('index', compact('shops'));
     }
 }
