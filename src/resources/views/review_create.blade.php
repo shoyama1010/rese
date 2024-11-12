@@ -1,4 +1,3 @@
-<!-- resources/views/review_create.blade.php -->
 @extends('layouts.app')
 
 @section('main')
@@ -41,7 +40,6 @@
     <!-- 右側 -->
     <div class="review-right">
         <h2>体験を評価してください</h2>
-
         <!-- バリデーションエラー表示 -->
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -52,7 +50,6 @@
             </ul>
         </div>
         @endif
-
         <form action="{{ route('reviews.store',$shop->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <!-- 星評価 -->

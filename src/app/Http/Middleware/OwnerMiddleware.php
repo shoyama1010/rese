@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-class IsAdmin
+class OwnerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +16,12 @@ class IsAdmin
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
-    // public function handle($request, Closure $next)
     {
-        if (!Auth::check()  || !Auth::user()->isAdmin()) {
-            return redirect('/')->with('error', '管理者権限が必要です。');
+        // ユーザーが認証されていない、または店舗代表者でない場合、メイン画面にリダイレクト
+        if (!Auth::guard('owner')->check()) {
+            return redirect('/');
         }
-        // 管理者ならリクエストを続ける
+
         return $next($request);
     }
 }
