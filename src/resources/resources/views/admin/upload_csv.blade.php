@@ -1,9 +1,8 @@
-<!-- resources/views/admin/upload_csv.blade.php -->
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('main')
-    <div class="container">
-        <h2>CSVで店舗情報をインポート</h2>
+@section('content')
+    <div class="csv-upload">
+        <h1>CSVインポート</h1>
 
         @if(session('error'))
             <div class="alert alert-danger">

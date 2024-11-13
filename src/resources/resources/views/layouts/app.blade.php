@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <link rel="stylesheet" href="{{ asset('css/review.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/review_create.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/review_edit.css') }}">
 </head>
 
 <body>
