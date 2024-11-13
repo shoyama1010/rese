@@ -1,0 +1,226 @@
+/* 口コミ表示＆編集＆削除 */
+.shop-review {
+    /* width: 50%; */
+    width: 70%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.shop-review_img {
+    margin-top: 30px;
+    width: 80%;
+}
+
+.shop-review_link {
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 2px 2px 4px gray;
+}
+
+.shop-review_ttl {
+    font-size: 28px;
+    margin: 20px 0;
+}
+
+.shop-review_txt {
+    margin-top: 10px;
+    line-height: 24px;
+}
+
+.mainflex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+.reviews-section h3 {
+    text-align: center;
+}
+
+.reviews-section {
+    width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    /* 上に区切り線を追加 */
+    padding-top: 10px;
+}
+
+/* 左側のブロック */
+.review-left {
+    width: 60%;
+}
+
+/* 各口コミアイテム */
+.review-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 25px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+}
+
+
+/* 口コミの評価表示 */
+.rating {
+    font-size: 20px;
+    color: #f39c12;
+    margin-bottom: 5px;
+}
+
+/* 口コミ編集・削除ボタン */
+.review-actions {
+    display: flex;
+    gap: 15px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.review-actions button,
+.review-actions form button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.review-actions form button.btn--delete {
+    background-color: #e74c3c;
+}
+
+.review-actions button:hover,
+.review-actions form button:hover {
+    background-color: #2980b9;
+}
+.review-edit__content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* 編集フォーム */
+.edit-form {
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    display: none;
+}
+
+
+/* 評価の星 */
+.rating-stars {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.rating-stars input {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 20px;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.rating-stars input:checked ~ label,
+.rating-stars label:hover,
+.rating-stars label:hover ~ label {
+    color: #f39c12;
+}
+
+
+  /* 予約（右側） */
+  .reservation-review {
+    width: 70%;
+}
+
+.review-right {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* width: 100%; */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.reservation-card {
+    background: #305dff;
+    border-radius: 5px;
+    box-shadow: 2px 2px 4px gray;
+    height: 70vh;
+    margin: 64px auto;
+    position: relative;
+    width: 100%;
+}
+
+.reservation-card__content-review {
+    padding: 36px 10px 0 28px;
+}
+
+.reservation-card__content__ttl {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 28px;
+}
+
+.reservation-card__date-input {
+    padding: 7px 30px 7px 10px;
+}
+
+.reservation-card__pull-down {
+    margin-top: 14px;
+}
+
+
+.reservation-btn {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    padding: 20px 0;
+    border: none;
+    z-index: 1;
+    background: #0038ff;
+    border-radius: 0 0 5px 5px;
+    cursor: pointer;
+}
+
+.reservation-card__content {
+    /* width: 100%; */
+    padding: 36px 0 0 28px;
+}
+
+.reservation-card__pull-down select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 7px 30px 7px 10px;
+    height: 30px;
+    width: 90%;
+    border-radius: 5px;
+    border: none;
+    background-image: url(../img/triangle.png);
+    background-repeat: no-repeat;
+    background-size: 12px 10px;
+    background-position: right 10px center;
+    line-height: 1.1em;
+    outline: none;
+}
+
