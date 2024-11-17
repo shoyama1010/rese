@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Owner;
 use App\Models\Shop;
+use App\Models\Reservation;
+use App\Imports\OwnersImport; // CSVインポート用
+// use Maatwebsite\Excel\Facades\Excel; // Excelファサード（CSV取り扱い用）
 
 class AdminController extends Controller
 {
@@ -15,26 +18,40 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard'); // admin.dashboardビューファイルが存在することも確認
+
+        // $owners = Owner::with('shops')->get(); // 全店舗代表者(オーナー)とその関連店舗情報を取得
+        // $shops = Shop::all(); // 全店舗情報を取得
+        // return view('admin.dashboard', compact('owners', 'shops'));
     }
 
     /**
-     * 店舗代表者の管理画面を表示する
+     * 店舗「代表者」の管理画面を表示する
      * 現在登録されている店舗代表者の一覧を表示し、代表者を管理する画面。
      */
     public function manageOwners()
     {
-        $owners = Owner::all();
-        return view('admin.manage_owners', compact('owners'));
+        $owners = Owner::all(); // 店舗代表者の一覧を取得
+        // 店舗代表者管理ページを表示
+        return view('admin.owners.index', compact('owners'));
+    }
+
+    /**
+     * 店舗情報の管理ページを表示
+     */
+    public function manageShops()
+    {
+        $shops = Shop::all();
+        return view('admin.shops.index', compact('shops'));
     }
 
     /**
      * 新しい店舗代表者を作成するフォームを表示する
-     * 管理者が新しい店舗代表者を追加できる入力フォーム画面。
+     * 「管理者」が新しい店舗代表者を追加できる入力フォーム画面。
      */
     public function createOwner()
     {
-        return view('admin.create_owner');
+        return view('admin.owner.create');
     }
 
     /**
@@ -57,7 +74,7 @@ class AdminController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('admin.manage_owners')->with('success', '新しい店舗代表者を作成しました。');
+        return redirect()->route('admin.owners.index')->with('success', '新しい店舗代表者を作成しました。');
     }
 
     /**
@@ -102,5 +119,21 @@ class AdminController extends Controller
         $owner->delete();
 
         return redirect()->route('admin.manage_owners')->with('success', '店舗代表者を削除しました。');
+    }
+
+    // **
+    // * CSVインポート画面の表示
+    // */
+    public function showCsvImport()
+    {
+        return view('admin.upload_csv');
+    }
+
+    /**
+     * CSVインポート処理
+     */
+    public function importCsv(Request $request)
+    {
+        // CSVインポートの処理（前述のCsvImportControllerの処理をここに統合）
     }
 }

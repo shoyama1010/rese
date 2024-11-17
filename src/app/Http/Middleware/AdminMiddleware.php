@@ -17,8 +17,11 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || !Auth::user()->isAdmin()) {
-            return redirect('/home')->with('error', '管理者権限がありません');
+        // if (!Auth::check() || !Auth::user()->isAdmin()) {
+        //     return redirect('/home')->with('error', '管理者権限がありません');
+        // }
+        if (!Auth::guard('admin')->check()) {
+            return redirect('/admin/login'); // 管理者専用ログイン画面にリダイレクト
         }
 
         // 管理者であればリクエストを進行

@@ -9,14 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
-    // 全ての口コミを表示
-    // public function index(Shop $shop)
-    // {
-    //     $reviews = $shop->reviews()->with('user')->first();
-    //     // $reviews = Review::where('shop_id', $shop->id)->first();
-    //     return view('review_edit', compact('reviews', 'shop'));
-    // }
-    // 特定の店舗のレビューを表示するメソッド
+
     public function showReviewsByShop($shopId)
     {
         // 店舗の存在確認と関連するレビューの取得
@@ -56,8 +49,6 @@ class ReviewController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        // return redirect()->route('reviews.index', $shop->id)->with('message', '口コミを投稿しました');
-        // return redirect()->route('reviews.index',$shop->id);
         return redirect()->route('reviews.by_shop',$shop->id);
     }
 

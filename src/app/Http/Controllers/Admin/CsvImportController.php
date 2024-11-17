@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
@@ -31,7 +32,7 @@ class CsvImportController extends Controller
         // CSVファイルを読み込み
         $file = $request->file('csv_file');
         $path = $file->getRealPath();
-        $csvData = array_map('str_getcsv', file($path)); 
+        $csvData = array_map('str_getcsv', file($path));
         $header = array_shift($csvData); // 最初の行をヘッダーとして使用
 
         // CSVデータをループしてデータベースに保存
