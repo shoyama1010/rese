@@ -67,8 +67,7 @@ return [
     |
     */
 
-    // 'timezone' => 'UTC',
-    'timezone' => 'Asia/Tokyo',
+    'timezone' => 'UTC',
 
     /*
     |--------------------------------------------------------------------------
@@ -81,8 +80,7 @@ return [
     |
     */
 
-    // 'locale' => 'en',
-    'locale' => 'ja',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -167,7 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -231,7 +228,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

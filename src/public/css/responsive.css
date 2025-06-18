@@ -25,7 +25,7 @@
 }
 
  @media (max-width: 768px) {
-    /* スマホやタブレット向けのスタイル */
+    スマホやタブレット向けのスタイル
     .shop-detail {
         flex-direction: column;
     }
@@ -33,4 +33,4 @@
     .reservation {
         width: 100%;
     }
-}
+} 

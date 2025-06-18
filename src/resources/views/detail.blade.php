@@ -8,7 +8,7 @@
             <a class="shop-detail__link" href="/">＜</a>
             <h2 class="shop-detail__ttl">{{$shop->name}}</h2>
         </div>
-        <img class="shop-detail__img" src="{!! $shop->image_url !!}" alt="shop-img" width="50%" />
+        <img class="shop-detail__img" src="{!! $shop->image_url !!}" alt="shop-img" width="100%" />
 
         <p class="shop-detail__txt">#{{$shop->area->name}}&nbsp;#{{$shop->genre->name}}</p>
 

@@ -15,8 +15,8 @@ class ShopsController extends Controller
 
         // デフォルトでは全ての店舗をランダムで表示
         $shops = Shop::with('reviews')->inRandomOrder()->get();
-        // return view('index', compact("shops"));
-        return view('index', compact('shops'));
+
+        return view('index', compact("shops"));
     }
 
     public function search(Request $request)
@@ -41,14 +41,16 @@ class ShopsController extends Controller
     }
 
     public function detail($shop_id)
+    // public function detail($id)
     {
-        // $shop = Shop::find($shop_id)->with('area', 'genre')->first();
-        $shop = Shop::where('id', $shop_id)->with('area', 'genre')->firstOrFail();
+        $shop = Shop::find($shop_id)->with('area', 'genre')->first();
+        // $shop = Shop::find($id);
         $reviews = $shop->reviews;
         $today = Carbon::now()->toDateString();
         // return view('detail', compact('shop'));
-        return view('detail', compact('shop', 'today'));
+        return view('detail', compact("shop", "today"));
     }
+
 
     // ソート機能の実装
     public function sort(Request $request)
@@ -71,6 +73,7 @@ class ShopsController extends Controller
                 $shops = Shop::with('reviews')->inRandomOrder()->get();
                 break;
         }
+
         return view('index', compact('shops'));
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // `Authenticatable` クラスを継承して、このモデルがLaravelのユーザー認証機能を持つことを定義。
@@ -59,10 +58,10 @@ class User extends Authenticatable
     }
 
     // 口コミの関係性を追加
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Review::class);
+    // }
 
     // 口コミの多対多リレーション
     public function shops()
@@ -81,8 +80,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        // return $this->roles()->where('name', $role)->exists();
-        return $this->role === 'admin';
+        return $this->roles()->where('name', $role)->exists();
     }
 
 
@@ -90,7 +88,7 @@ class User extends Authenticatable
     public function isAdmin()
     {
         // ユーザーの role が 'admin' であれば true を返す
-        return $this->role === 'admin';
-        // return $this->roles()->where('name', 'admin')->exists();
+        // return $this->role === 'admin';
+        return $this->roles()->where('name', 'admin')->exists();
     }
 }
