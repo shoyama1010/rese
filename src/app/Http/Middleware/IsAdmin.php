@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class IsAdmin
 {
@@ -15,13 +16,13 @@ class IsAdmin
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    // public function handle(Request $request, Closure $next)
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
+    // public function handle($request, Closure $next)
     {
-        // if (Auth::check() && Auth::user()->isAdmin()) {
-            if (Auth::check() && Auth::user()->hasRole('admin')) {
-            return $next($request);
+        if (!Auth::check()  || !Auth::user()->isAdmin()) {
+            return redirect('/')->with('error', '管理者権限が必要です。');
         }
-        return redirect('/'); // 管理者でない場合はホームページにリダイレクト
+        // 管理者ならリクエストを続ける
+        return $next($request);
     }
 }

@@ -23,7 +23,7 @@ class LoginController extends Controller
     // ログイン後のリダイレクト先
     protected function redirectTo()
     {
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::user()->isAdmin()) {
             return '/admin/dashboard'; // 管理者のダッシュボードへリダイレクト
         }
         return '/'; // 一般ユーザーの場合はトップページへリダイレクト

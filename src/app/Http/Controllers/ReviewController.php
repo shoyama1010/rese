@@ -10,19 +10,27 @@ use Illuminate\Support\Facades\Auth;
 class ReviewController extends Controller
 {
     // 全ての口コミを表示
-    public function index(Shop $shop)
+    // public function index(Shop $shop)
+    // {
+    //     $reviews = $shop->reviews()->with('user')->first();
+    //     // $reviews = Review::where('shop_id', $shop->id)->first();
+    //     return view('review_edit', compact('reviews', 'shop'));
+    // }
+    // 特定の店舗のレビューを表示するメソッド
+    public function showReviewsByShop($shopId)
     {
-        // $reviews = $shop->reviews()->with('user')->get();
-        $reviews = $shop->reviews()->with('user')->first();
+        // 店舗の存在確認と関連するレビューの取得
+        $shop = Shop::with(['reviews.user'])->findOrFail($shopId); // 店舗と関連するレビューを取得
+        $reviews = $shop->reviews; // リレーションを利用して取得
+        // データをビューに渡す
         return view('review_edit', compact('shop', 'reviews'));
     }
 
-    //  新規口コミ投稿ページを表示するメソッド
+    //  口コミ投稿するための「フォーム表示」
     public function create(Shop $shop)
     {
         return view('review_create', compact('shop'));
     }
-
     // 口コミをデータベースに保存するメソッド
     public function store(Request $request, Shop $shop)
     {
@@ -30,14 +38,16 @@ class ReviewController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'review_text' => 'required|string|max:400',
-            'image' => 'nullable|image|mimes:jpeg,png|max:2048',
+            'image_path' => 'nullable|image|mimes:jpeg,png|max:2048',
         ]);
 
+        // 画像の保存処理
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('reviews', 'public');
         }
 
+        // 口コミの保存
         Review::create([
             'user_id' => Auth::id(),
             'shop_id' => $shop->id,
@@ -46,18 +56,16 @@ class ReviewController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('shop.detail', $shop->id)->with('message', '口コミを投稿しました');
-        // return redirect()->route('reviews.create', $shop->id)->with('message', '口コミを投稿しました');
+        // return redirect()->route('reviews.index', $shop->id)->with('message', '口コミを投稿しました');
+        // return redirect()->route('reviews.index',$shop->id);
+        return redirect()->route('reviews.by_shop',$shop->id);
     }
 
     // 口コミ編集フォームを表示
     public function edit(Review $review)
-    {  // ログインユーザーが投稿した口コミか確認
+    {
         $this->authorize('update', $review);
-        // if (!$review) {
-        //     abort(404);
-        // }
-        return view('review_edit', compact('review'));
+        return view('review_edit', compact('review', 'shop'));
     }
 
     // 口コミを更新するメソッド
@@ -68,7 +76,7 @@ class ReviewController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'review_text' => 'required|string|max:400',
-            'image' => 'nullable|image|mimes:jpeg,png',
+            'image_path' => 'nullable|image|mimes:jpeg,png',
         ]);
 
         $imagePath = $review->image_path;
@@ -82,7 +90,7 @@ class ReviewController extends Controller
             'image_path' => $imagePath,
         ]);
         // 店舗詳細ページにリダイレクト
-        return redirect()->route('shop.detail', $review->shop_id)->with('message', '口コミを更新しました');
+        return redirect()->route('shop.detail', $review->id)->with('message', '口コミを更新しました');
     }
 
     // 口コミを削除するメソッド
@@ -91,6 +99,6 @@ class ReviewController extends Controller
         $this->authorize('delete', $review);
         $review->delete();
 
-        return redirect()->route('shop.detail', $review->shop_id)->with('message', '口コミを削除しました');
+        return redirect()->route('shop.detail', $review->id)->with('message', '口コミを削除しました');
     }
 }

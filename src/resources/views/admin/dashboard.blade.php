@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
-@section('main')
-    <div class="container">
-        <h1>管理者ダッシュボード</h1>
-        <p>管理者専用のコンテンツを表示します。</p>
-    </div>
+@section('content')
+<div class="dashboard">
+    <h1>管理者用ダッシュボード</h1>
+    <p>ここで店舗の管理や予約の管理ができます。</p>
+    <a href="{{ route('admin.csv_import') }}">CSVインポートページへ</a>
+</div>
 @endsection
