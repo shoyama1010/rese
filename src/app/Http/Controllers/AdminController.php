@@ -6,28 +6,38 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Owner;
 use App\Models\Shop;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth; // Auth を明示的にインポート
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        // ミドルウェアの適用: `auth:admin` に変更
+        // $this->middleware(['auth', 'role:admin']);
+        $this->middleware('auth');
+    }
     /**
      * 管理者ダッシュボードを表示する
      * 管理者ユーザーのみがアクセス可能で、管理用のメイン画面。
      */
     public function dashboard()
     {
+        // 現在のログインユーザーを取得
+        $admin = Auth::guard('admin')->user();
         return view('admin.dashboard');
     }
-
     /**
      * 店舗代表者の管理画面を表示する
      * 現在登録されている店舗代表者の一覧を表示し、代表者を管理する画面。
      */
     public function manageOwners()
     {
+        // `auth('admin')->user()` を使って管理者を確認
+        $admin = Auth::guard('admin')->user();
         $owners = Owner::all();
         return view('admin.manage_owners', compact('owners'));
     }
-
     /**
      * 新しい店舗代表者を作成するフォームを表示する
      * 管理者が新しい店舗代表者を追加できる入力フォーム画面。
@@ -36,7 +46,6 @@ class AdminController extends Controller
     {
         return view('admin.create_owner');
     }
-
     /**
      * 新しい店舗代表者を保存する
      * 入力されたデータを基に、データベースに店舗代表者を保存する処理。
@@ -49,7 +58,6 @@ class AdminController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
-
         // 店舗代表者の新規作成
         Owner::create([
             'name' => $request->name,

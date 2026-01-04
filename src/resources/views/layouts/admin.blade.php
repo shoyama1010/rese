@@ -12,12 +12,11 @@
         <nav>
             <ul>
                 <li><a href="{{ route('admin.dashboard') }}">ダッシュボード</a></li>
-                <li><a href="{{ route('admin.csv_import') }}">CSVインポート</a></li>
+                {{-- <li><a href="{{ route('admin.csv_import') }}">CSVインポート</a></li> --}}
                 <!-- その他の管理者メニュー -->
             </ul>
         </nav>
     </header>
-
     <main>
         @yield('content')
     </main>

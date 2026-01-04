@@ -56,8 +56,6 @@ class ReviewController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        // return redirect()->route('reviews.index', $shop->id)->with('message', '口コミを投稿しました');
-        // return redirect()->route('reviews.index',$shop->id);
         return redirect()->route('reviews.by_shop',$shop->id);
     }
 

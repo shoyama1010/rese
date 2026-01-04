@@ -7,6 +7,8 @@
 			<a class="menu__item" onclick="document.logout.submit();">Logout</a>
 		</form>
 		<a href="{{ route('mypage') }}" class="menu__item">Mypage</a>
+        <a href="{{ route('admin.login') }}" class="menu__item">Multilogin</a>
+        {{-- <a href="{{ route('admin.dashboard') }}" class="menu__item">Multilogin</a> --}}
 	@else
 		<a href="{{ route('register') }}" class="menu__item">Registration</a>
 		<a href="{{ route('login') }}" class="menu__item">Login</a>

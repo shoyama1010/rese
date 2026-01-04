@@ -11,9 +11,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    // このクラスで `HasFactory` と `Notifiable` のトレイトを使用。ファクトリーによるデータ生成機能と通知機能を追加。
-    // Notifiable トレイトを利用することで、ユーザーに,どのチャネルを通じて通知を送るかを簡単に選択・実装できる。
-
     /**
      * The attributes that are mass assignable.
      *
