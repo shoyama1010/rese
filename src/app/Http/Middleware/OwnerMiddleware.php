@@ -21,7 +21,6 @@ class OwnerMiddleware
         if (!Auth::guard('owner')->check()) {
             return redirect('/');
         }
-
         return $next($request);
     }
 }

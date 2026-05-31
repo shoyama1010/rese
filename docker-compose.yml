@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   nginx:
@@ -39,4 +39,4 @@ services:
     depends_on:
       - mysql
     ports:
-      - 8080:80
+      - 8081:80

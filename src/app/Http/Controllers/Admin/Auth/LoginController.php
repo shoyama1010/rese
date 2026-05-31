@@ -3,66 +3,64 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | このコントローラは、アプリケーションのユーザーを認証し、リダイレクトします。
-    | このコントローラは、トレイトを使って、必要な機能を提供します。
-    |
-    */
-
-    // use AuthenticatesUsers;
-    // ログイン後のリダイレクト先
-    // protected function redirectTo()
-    // {
-    //     if (Auth::user()->isAdmin()) {
-    //         return '/admin/dashboard'; // 管理者のダッシュボードへリダイレクト
-    //     }
-    //     return '/'; // 一般ユーザーの場合はトップページへリダイレクト
-    // }
-
-    // 管理者ログインフォームの表示
     public function showLoginForm()
     {
+        // Blade を使うログイン画面（今後Nextに移すなら未使用でもOK）
         return view('admin.login');
     }
 
-    // 管理者ログイン処理
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        // 管理者ガードでログインを試みる
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            // return redirect()->intended(route('admin.dashboard'));
-            return redirect()->route('admin.dashboard'); // 明確にリダイレクト
-        } else {
-            // デバッグ用メッセージを追加
-            // dd('認証に失敗しました: ', $request->only('email', 'password'));
+        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            // ✅ API 用に JSON を返す
+            if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
+                return response()->noContent(200);
+                // return response()->json([
+                //     'ok' => true,
+                //     'admin' => Auth::guard('admin')->user()->only(['id', 'name', 'email'])
+                // ]);
+            }
+            // Blade 用（ログイン後ダッシュボードへ）
+            return redirect()->intended(route('admin.dashboard'));
+        }
+        // 失敗時も API と 画面 で分岐
+        if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
+            return response()->json(['message' => 'Invalid credentials'], 422);
+            // return response()->json([
+            //     'ok' => false,
+            //     'message' => 'メールアドレスまたはパスワードが正しくありません。',
+            // ], 401);
         }
 
-        // 認証失敗時の処理
         return back()->withErrors([
-            'email' => 'ログインに失敗しました。',
-        ]);
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ])->onlyInput('email');
     }
 
-    // 管理者ログアウト処理
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login');
-    }
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
+        if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
+            return response()->noContent(); // 204
+            // return response()->json(['ok' => true]); // ✅ JSON で返す
+        }
+
+        // ★ 画面（Blade）ならログイン画面へ
+        return redirect()->route('admin.login.form');
+    }
 }

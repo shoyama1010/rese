@@ -43,6 +43,7 @@ class ReviewController extends Controller
 
         // 画像の保存処理
         $imagePath = null;
+
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('reviews', 'public');
         }
@@ -56,8 +57,6 @@ class ReviewController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        // return redirect()->route('reviews.index', $shop->id)->with('message', '口コミを投稿しました');
-        // return redirect()->route('reviews.index',$shop->id);
         return redirect()->route('reviews.by_shop',$shop->id);
     }
 
@@ -97,8 +96,14 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         $this->authorize('delete', $review);
+
+        // 口コミが属していた店舗IDを保存
+        $shopId = $review->shop_id;
+
         $review->delete();
 
-        return redirect()->route('shop.detail', $review->id)->with('message', '口コミを削除しました');
+        return redirect()
+            ->route('reviews.by_shop', ['shopId' => $shopId])
+            ->with('message', '口コミを削除しました');
     }
 }

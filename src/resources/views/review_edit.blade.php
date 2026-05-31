@@ -13,74 +13,52 @@
             <p class="shop-review_txt">{{ $shop->description }}</p>
         </div>
 
-        <!-- 口コミリストの表示 -->
-        <div class="reviews-section">
-            <h3>全ての口コミ情報</h3>
+        <div class="reviews-toggle">
+            <button type="button" class="reviews-toggle__button" onclick="toggleReviews()">
+                全ての口コミ情報
+            </button>
+        </div>
 
-            @foreach ($reviews as $review)
-            <!-- <div class="review-edit"> -->
+        <div id="reviews-list" class="reviews-list" style="display: none;">
+            @foreach ($shop->reviews as $review)
             <div class="review-item">
-                <!-- 口コミの評価表示 -->
-                <div class="rating">
-                    @for ($i=1; $i <=5; $i++)
+                <div class="review-stars">
+                    @for ($i = 1; $i <= 5; $i++)
                         <span>{{ $i <= $review->rating ? '★' : '☆' }}</span>
                         @endfor
                 </div>
-                <!-- 口コミ画像とテキストの表示 -->
-                <div class="review-content">
-                    <p class="review-text">{{ optional($review)->review_text }}</p>
-                    <div class="review-image">
-                        @if($review->image_path)
-                        <img src="{{ asset('storage/' . $review->image_path) }}" alt="口コミ画像" style="width: 80%; max-width: 400px; height: auto;">
-                        @endif
-                        <p>投稿者: {{ optional($review->user)->name }}</p>
-                    </div>
-                </div>
-                <!-- バリデーションエラー表示 -->
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+
+                <p class="review-text">
+                    {{ $review->review_text }}
+                </p>
+
+                @if ($review->image_path)
+                <img
+                    src="{{ asset('storage/' . $review->image_path) }}"
+                    alt="口コミ画像"
+                    class="review-image">
                 @endif
-                <!-- 口コミ編集・削除ボタン -->
+
+                <p class="review-user">
+                    投稿者：{{ optional($review->user)->name }}
+                </p>
+
+                @if (Auth::id() === $review->user_id)
                 <div class="review-actions">
-                    <!-- 編集ボタン（編集フォームをトグルで表示） -->
-                    <button onclick="document.getElementById('edit-form-{{ $review->id }}').style.display='block'">口コミを編集</button>
-                    <!-- 削除ボタン -->
-                    <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('reviews.edit', $review->id) }}" class="review-edit-btn">
+                        口コミを編集
+                    </a>
+
+                    <form action="{{ route('reviews.destroy', $review->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn--delete" onclick="return confirm('口コミを削除しますか？');">口コミを削除する</button>
+                        <button type="submit" class="review-delete-btn"
+                            onclick="return confirm('口コミを削除しますか？')">
+                            口コミを削除する
+                        </button>
                     </form>
                 </div>
-
-                <!-- 編集フォーム（非表示） -->
-                <div id="edit-form-{{ $review->id }}" class="edit-form" style="display:none;">
-                    <form action="{{ route('reviews.update', $review->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="review-edit__content">
-                            <!-- ★ 評価 -->
-                            <label for="rating">評価を選択してください</label>
-                            <div class="rating-stars">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
-                                    <label for="star{{ $i }}">&#9733;</label>
-                                    @endfor
-                            </div>
-                            <!-- 口コミ -->
-                            <textarea name="review_text" id="review_text" cols="30" rows="5">{{ old('review_text', $review->review_text) }}</textarea>
-                            <!-- 店舗口コミ画像 -->
-                            <label for="image">画像の追加</label>
-                            <input type="file" name="image" accept="image/jpeg,image/png">
-                            <input type="submit" class="btn" value="口コミを更新する">
-                        </div>
-                    </form>
-                </div>
+                @endif
             </div>
             @endforeach
         </div>
@@ -133,3 +111,15 @@
     </div>
     @endsection
 </div>
+
+<script>
+    function toggleReviews() {
+        const reviewsList = document.getElementById('reviews-list');
+
+        if (reviewsList.style.display === 'none') {
+            reviewsList.style.display = 'block';
+        } else {
+            reviewsList.style.display = 'none';
+        }
+    }
+</script>

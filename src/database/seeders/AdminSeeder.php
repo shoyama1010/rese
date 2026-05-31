@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Admin;
 
 class AdminSeeder extends Seeder
 {
@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
         Admin::create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('yourpassword'), // パスワードをハッシュ化
+            'password' => Hash::make('admin1234'), // 必要に応じてパスワードを変更
         ]);
     }
 }

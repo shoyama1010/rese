@@ -7,13 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 // `Authenticatable` クラスを継承して、このモデルがLaravelのユーザー認証機能を持つことを定義。
 use Illuminate\Notifications\Notifiable;
+use App\Models\Shop;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    // このクラスで `HasFactory` と `Notifiable` のトレイトを使用。ファクトリーによるデータ生成機能と通知機能を追加。
-    // Notifiable トレイトを利用することで、ユーザーに,どのチャネルを通じて通知を送るかを簡単に選択・実装できる。
-
     /**
      * The attributes that are mass assignable.
      *
@@ -46,14 +44,17 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->belongsToMany(Shop::class, 'reservations')->withPivot('id', 'date', 'time', 'user_num');
+        return $this->belongsToMany(Shop::class, 'reservations')
+            ->withPivot('id', 'date', 'time', 'user_num')
+            ->withTimestamps();
         // `reservations` メソッドは、ユーザーと店舗 (`Shop`) の多対多リレーションを定義。
         // `reservations` テーブルを通じて、ユーザーがどの店舗を予約したかを取得。
         // `withPivot` メソッドを使って、予約ID (`id`)、予約日 (`date`)、時間 (`time`)、人数 (`user_num`) などの追加のフィールドも取得。
     }
     public function likes()
     {
-        return $this->belongsToMany(Shop::class, 'likes');
+        return $this->belongsToMany(Shop::class, 'likes')
+            ->withTimestamps();
         // `likes` メソッドは、ユーザーと店舗 (`Shop`) の多対多リレーションを定義。
         // `likes` テーブルを通じて、ユーザーが「いいね」した店舗を取得。
     }

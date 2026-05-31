@@ -1,2 +1,7 @@
 docker/mysql/data/*
-!.gitkeep
+!docker/mysql/data/.gitkeep
+
+node_modules/
+admin-frontend/node_modules/
+admin-frontend/.next/
+.next/
