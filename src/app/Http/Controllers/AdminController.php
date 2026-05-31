@@ -97,6 +97,7 @@ class AdminController extends Controller
             // パスワードが入力されている場合のみ更新
             'password' => $request->password ? bcrypt($request->password) : $owner->password,
         ]);
+
         return redirect()->route('admin.manage_owners')->with('success', '店舗代表者の情報を更新しました。');
     }
 
