@@ -16,6 +16,11 @@
 
         <!-- 口コミ（レビー）機能に遷移 -->
         <a href="{{ route('reviews.create', $shop->id) }}" class="btn btn-primary">口コミを投稿する</a>
+        
+        <a href="{{ route('reviews.by_shop', ['shopId' => $shop->id]) }}" class="review-link review-link--list">
+            全ての口コミ情報を見る
+        </a>
+       
     </div>
 
     <!-- 右側 -->

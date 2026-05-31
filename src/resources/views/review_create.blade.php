@@ -22,14 +22,18 @@
 
                 @if( Auth::check() )
                 @if(count($shop->likes) == 0)
-                <form class="ml-a" method="POST" action="{{ route('like', ['shop_id' => $shop->id]) }}">
+                <form class="ml-a" method="POST"
+                    action="{{ route('like', ['shop_id' => $shop->id]) }}">
                     @csrf
-                    <input class="shop-card__content__icon inactive" type="image" src="/img/unlike.png" alt="いいね" width="32px" height="32px">
+                    <input class="shop-card__content__icon inactive" type="image"
+                        src="/img/unlike.png" alt="いいね" width="32px" height="32px">
                 </form>
                 @else
-                <form class="ml-a" method="POST" action="{{ route('unlike', ['shop_id' => $shop->id]) }}">
+                <form class="ml-a" method="POST"
+                    action="{{ route('unlike', ['shop_id' => $shop->id]) }}">
                     @csrf
-                    <input class="shop-card__content__icon inactive" type="image" src="/img/like.png" alt="いいねを外す" width="32px" height="32px">
+                    <input class="shop-card__content__icon inactive" type="image"
+                        src="/img/like.png" alt="いいねを外す" width="32px" height="32px">
                 </form>
                 @endif
                 @endif
@@ -38,44 +42,56 @@
     </div>
 
     <!-- 右側 -->
-    <div class="review-right">
-        <h2>体験を評価してください</h2>
-        <!-- バリデーションエラー表示 -->
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-        <form action="{{ route('reviews.store',$shop->id) }}" method="POST" enctype="multipart/form-data">
+    <div class="review-form-card">
+        <h2 class="review-form-title">体験を評価してください</h2>
+
+        <form
+            action="{{ route('reviews.store', ['shop' => $shop->id]) }}"
+            method="POST"
+            enctype="multipart/form-data"
+            class="review-form">
             @csrf
-            <!-- 星評価 -->
-            <div class="contents-form">
-                <!-- <label for="rating">評価</label> -->
-                <div class="rating-stars">
-                    @for ($i = 1; $i <= 5; $i++)
-                        <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
-                        <label for="star{{ $i }}">&#9733;</label>
-                        @endfor
-                </div>
-                <!-- 口コミテキストの入力 -->
-                <div class="text">
-                    <label for="review_text">口コミを投稿</label>
-                    <textarea name="review_text" id="review_text" maxlength="400" placeholder="口コミを書いてください"></textarea>
-                </div>
-                <!-- 画像アップロードの入力 -->
-                <div class="file">
-                    <label for="image">画像を追加</label>
-                    <input type="file" name="image" id="image" accept="image/jpeg, image/png">
-                </div>
+
+            <div class="review-rating">
+                @for ($i = 5; $i >= 1; $i--)
+                <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}">
+                <label for="star{{ $i }}">★</label>
+                @endfor
             </div>
-            <div class="submit">
-                <button type="submit">口コミを投稿する</button>
-                <!-- <a href="{{ route('reviews.edit', $shop->id) }}" class="btn btn-primary">口コミを投稿する</a> -->
+
+            @error('rating')
+            <p class="review-error">{{ $message }}</p>
+            @enderror
+
+            <div class="review-form-group">
+                <label class="review-label">口コミを投稿</label>
+                <textarea
+                    name="review_text"
+                    class="review-textarea"
+                    maxlength="400"
+                    placeholder="口コミを入力してください">{{ old('review_text') }}</textarea>
+                <div class="review-count">0/400（最高文字数）</div>
+
+                @error('review_text')
+                <p class="review-error">{{ $message }}</p>
+                @enderror
             </div>
+
+            <div class="review-form-group">
+                <label class="review-label">画像を追加</label>
+                <label class="review-file-box">
+                    <input type="file" name="image" accept="image/jpeg,image/png" class="review-file-input">
+                    <span>クリックして写真を追加<br>またはドラッグアンドドロップ</span>
+                </label>
+
+                @error('image')
+                <p class="review-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <button type="submit" class="review-submit-btn">
+                口コミを投稿
+            </button>
         </form>
     </div>
 </div>

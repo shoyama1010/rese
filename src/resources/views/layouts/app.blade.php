@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
     <link rel="stylesheet" href="{{ asset('css/review_create.css') }}">
     <link rel="stylesheet" href="{{ asset('css/review_edit.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+   <script src="{{ asset('js/app.js') }}" defer></script>
+   
+   @yield('css')
 </head>
 
 <body>
@@ -22,5 +26,6 @@
         @yield('main')
     </div>
 </body>
+
 
 </html>

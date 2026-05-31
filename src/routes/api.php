@@ -37,7 +37,7 @@ Route::middleware('auth:admin')->get('/admin/me', function () {
 });
 
 // 認証が必要な管理ダッシュボード API
-Route::middleware('auth:admin')->get('/admin/dashboard', function () {
+Route::get('/admin/dashboard', function () {
     return response()->json([
         'title' => '管理者用店舗予約管理ページ',
         'message' => 'ここで店舗の管理や予約の管理ができます。',

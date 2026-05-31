@@ -1,30 +1,52 @@
 @extends('layouts.app')
 
-@section('main')
-    <div class="container">
-        <h2>管理者ログイン</h2>
-        <p>メールアドレス: 〇〇〇@example.com</p>
-        <p>パスワード:〇〇〇1234</p>
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/admin_login.css') }}">
+@endsection
 
-        <form method="POST" action="{{ route('admin.login') }}">
+@section('main')
+<div class="admin-login">
+    <div class="admin-login__card">
+        <h2 class="admin-login__title">管理者ログイン</h2>
+
+        <div class="admin-login__sample">
+            <p>メールアドレス：〇〇〇@example.com</p>
+            <p>パスワード：〇〇〇1234</p>
+        </div>
+
+        <form method="POST" action="{{ route('admin.login') }}" class="admin-login__form">
             @csrf
-            <div>
-                <label>Email</label>
-                <input type="email" name="email" required autofocus>
+
+            <div class="admin-login__group">
+                <label class="admin-login__label">Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ old('email') }}"
+                    class="admin-login__input"
+                    required
+                    autofocus>
                 @error('email')
-                    <p class="error">{{ $message }}</p>
+                <p class="admin-login__error">{{ $message }}</p>
                 @enderror
             </div>
-            <div>
-                <label>Password</label>
-                <input type="password" name="password" required>
+
+            <div class="admin-login__group">
+                <label class="admin-login__label">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    class="admin-login__input"
+                    required>
                 @error('password')
-                    <p class="error">{{ $message }}</p>
+                <p class="admin-login__error">{{ $message }}</p>
                 @enderror
             </div>
-            <div>
-                <button type="submit">ログイン</button>
-            </div>
+
+            <button type="submit" class="admin-login__button">
+                ログイン
+            </button>
         </form>
     </div>
+</div>
 @endsection

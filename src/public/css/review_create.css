@@ -147,6 +147,18 @@
 }
 
 
+.review-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #305dff;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.review-link--list {
+    margin-left: 16px;
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .main {
@@ -160,4 +172,116 @@
     }
 }
 
+.review-form-card {
+    width: 100%;
+    background: #fff;
+    border-radius: 8px;
+    padding: 36px 48px;
+}
+
+.review-form-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+.review-form {
+    width: 100%;
+}
+
+.review-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-bottom: 24px;
+}
+
+.review-rating input {
+    display: none;
+}
+
+.review-rating label {
+    font-size: 34px;
+    color: #d1d5db;
+    cursor: pointer;
+}
+
+.review-rating input:checked ~ label,
+.review-rating label:hover,
+.review-rating label:hover ~ label {
+    color: #305dff;
+}
+
+.review-form-group {
+    margin-bottom: 28px;
+}
+
+.review-label {
+    display: block;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.review-textarea {
+    width: 100%;
+    height: 150px;
+    padding: 14px 16px;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    font-size: 16px;
+    resize: vertical;
+}
+
+.review-textarea:focus {
+    outline: none;
+    border-color: #305dff;
+    box-shadow: 0 0 0 3px rgba(48, 93, 255, 0.12);
+}
+
+.review-count {
+    text-align: right;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.review-file-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    background: #fff;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    color: #333;
+}
+
+.review-file-input {
+    display: none;
+}
+
+.review-submit-btn {
+    width: 100%;
+    height: 56px;
+    background: #305dff;
+    color: #fff;
+    border: none;
+    border-radius: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.review-submit-btn:hover {
+    background: #2448cc;
+}
+
+.review-error {
+    color: #e3342f;
+    font-size: 13px;
+    margin-top: 6px;
+}
 
