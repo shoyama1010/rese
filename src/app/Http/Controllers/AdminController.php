@@ -2,114 +2,73 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Owner;
+use App\Models\Review;
 use App\Models\Shop;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Auth; // Auth を明示的にインポート
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    /**
+     * 管理者用コントローラ。
+     * adminガードでログインしている管理者だけがアクセス可能。
+     */
     public function __construct()
     {
-        // ミドルウェアの適用: `auth:admin` に変更
-        // $this->middleware(['auth', 'role:admin']);
-        $this->middleware('auth');
+        $this->middleware('auth:admin');
     }
+
     /**
-     * 管理者ダッシュボードを表示する
-     * 管理者ユーザーのみがアクセス可能で、管理用のメイン画面。
+     * 管理者ダッシュボードを表示する。
      */
     public function dashboard()
     {
-        // 現在のログインユーザーを取得
         $admin = Auth::guard('admin')->user();
-        return view('admin.dashboard');
+
+        return view('admin.dashboard', compact('admin'));
     }
+
     /**
-     * 店舗代表者の管理画面を表示する
-     * 現在登録されている店舗代表者の一覧を表示し、代表者を管理する画面。
+     * 店舗別口コミ一覧ページを表示する。
+     *
+     * 各店舗ごとの口コミ件数を表示し、
+     * 店舗ごとの口コミ一覧ページへ遷移できるようにする。
      */
-    public function manageOwners()
+    public function reviewShops()
     {
-        // `auth('admin')->user()` を使って管理者を確認
-        $admin = Auth::guard('admin')->user();
-        $owners = Owner::all();
-        return view('admin.manage_owners', compact('owners'));
+        $shops = Shop::withCount('reviews')
+            ->orderBy('id')
+            ->get();
+
+        return view('admin.reviews.shops', compact('shops'));
     }
+
     /**
-     * 新しい店舗代表者を作成するフォームを表示する
-     * 管理者が新しい店舗代表者を追加できる入力フォーム画面。
+     * 指定店舗の口コミ一覧を表示する。
+     *
+     * 管理者はこの画面から口コミを確認・削除できる。
      */
-    public function createOwner()
+    public function shopReviews(Shop $shop)
     {
-        return view('admin.create_owner');
-    }
-    /**
-     * 新しい店舗代表者を保存する
-     * 入力されたデータを基に、データベースに店舗代表者を保存する処理。
-     */
-    public function storeOwner(Request $request)
-    {
-        // バリデーション処理
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed',
-        ]);
-        // 店舗代表者の新規作成
-        Owner::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        $shop->load([
+            'reviews' => function ($query) {
+                $query->with('user')->latest();
+            },
         ]);
 
-        return redirect()->route('admin.manage_owners')->with('success', '新しい店舗代表者を作成しました。');
+        return view('admin.reviews.index', compact('shop'));
     }
 
     /**
-     * 店舗代表者の編集フォームを表示する
-     * 特定の代表者の情報を編集するための入力フォーム。
+     * 管理者による口コミ削除処理。
      */
-    public function editOwner($id)
+    public function destroyReview(Review $review)
     {
-        $owner = Owner::findOrFail($id);
-        return view('admin.edit_owner', compact('owner'));
-    }
+        $shopId = $review->shop_id;
 
-    /**
-     * 店舗代表者の情報を更新する
-     * 編集された内容をデータベースに保存し、情報を更新。
-     */
-    public function updateOwner(Request $request, $id)
-    {
-        // バリデーション処理
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $id,
-        ]);
+        $review->delete();
 
-        $owner = Owner::findOrFail($id);
-        $owner->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            // パスワードが入力されている場合のみ更新
-            'password' => $request->password ? bcrypt($request->password) : $owner->password,
-        ]);
-
-        return redirect()->route('admin.manage_owners')->with('success', '店舗代表者の情報を更新しました。');
-    }
-
-    /**
-     * 店舗代表者を削除する
-     * 指定した代表者をデータベースから削除する処理。
-     */
-    public function destroyOwner($id)
-    {
-        $owner = Owner::findOrFail($id);
-        $owner->delete();
-
-        return redirect()->route('admin.manage_owners')->with('success', '店舗代表者を削除しました。');
+        return redirect()
+            ->route('admin.reviews.shop', $shopId)
+            ->with('success', '口コミを削除しました。');
     }
 }

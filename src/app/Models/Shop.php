@@ -40,7 +40,7 @@ class Shop extends Model
         return $shops;
     }
 
-
+    
     public static function conditionFormat($conditions)
     {
         $result = "";
@@ -106,6 +106,11 @@ class Shop extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function owner()
+    {
+        return $this->hasOne(Owner::class);
     }
 
 }

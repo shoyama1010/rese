@@ -1,0 +1,104 @@
+.admin-dashboard {
+    min-height: 100vh;
+    background: #f3f3f3;
+    padding: 28px 48px;
+}
+
+.admin-dashboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-dashboard__logo {
+    color: #ffbd5a;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.admin-dashboard__logout {
+    background: #ffbd5a;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.admin-dashboard__main {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.admin-dashboard__card {
+    width: 600px;
+    min-height: 360px;
+    background: #fff;
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.35);
+    padding: 32px 48px;
+    text-align: center;
+}
+
+.admin-dashboard__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+}
+
+.admin-dashboard__link {
+    color: #ffbd5a;
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.admin-dashboard__link:hover {
+    opacity: 0.75;
+}
+
+.admin-dashboard__csv {
+    width: 360px;
+    margin: 0 auto;
+    background: #ffc466;
+    padding: 24px 32px;
+}
+
+.admin-dashboard__csv-title {
+    margin-bottom: 18px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.admin-dashboard__file-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 88px;
+    background: #fff;
+    margin-bottom: 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.admin-dashboard__file-area input {
+    display: none;
+}
+
+.admin-dashboard__file-text {
+    margin-bottom: 14px;
+    font-size: 12px;
+}
+
+.admin-dashboard__import {
+    width: 180px;
+    height: 30px;
+    background: #fff;
+    color: #ff9f2f;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}

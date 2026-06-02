@@ -70,20 +70,31 @@ Route::post('/multi/login', [MultiLoginController::class, 'login'])->name('multi
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->name('admin.')->group(function () {
+    // 管理者ログイン
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login.form');
     Route::post('/login', [AdminLoginController::class, 'login'])->name('login');
     Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 
+    // 管理者ログイン後
     Route::middleware('auth:admin')->group(function () {
+        // ダッシュボード
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
+        // 店舗代表者管理
         Route::resource('owners', AdminOwnerController::class);
 
+        // 店舗代表者関連
         Route::get('/owners/shops/{shop_id}', [AdminOwnerController::class, 'show'])->name('owners.shops.show');
         Route::get('/owners/{id}/edit-status', [AdminOwnerController::class, 'editStatus'])->name('owners.edit_status');
         Route::put('/owners/{id}/update-status', [AdminOwnerController::class, 'updateStatus'])->name('owners.update_status');
         Route::get('/owners/{id}/shops', [AdminOwnerController::class, 'showOwnerShops'])->name('owners.shops');
 
+        // 管理者用：店舗別口コミ一覧・口コミ削除
+        Route::get('/shops/reviews', [AdminController::class, 'reviewShops'])->name('reviews.shops');
+        Route::get('/shops/{shop}/reviews', [AdminController::class, 'shopReviews'])->name('reviews.shop');
+        Route::delete('/reviews/{review}', [AdminController::class, 'destroyReview'])->name('reviews.destroy');
+
+        // CSV
         Route::get('/upload-csv', [CsvImportController::class, 'showUploadForm'])->name('upload_csv.form');
         Route::post('/upload-csv', [CsvImportController::class, 'importCsv'])->name('upload_csv');
     });

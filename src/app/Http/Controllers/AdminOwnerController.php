@@ -82,4 +82,32 @@ class AdminOwnerController extends Controller
 
         return redirect()->route('admin.owners.index')->with('success', '店舗代表者を削除しました。');
     }
+
+    public function create()
+    {
+        $shops = \App\Models\Shop::doesntHave('owner')->get();
+
+        return view('admin.owners.create', compact('shops'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'shop_id' => 'required|exists:shops,id|unique:owners,shop_id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:owners,email',
+            'password' => 'required|min:8',
+        ]);
+
+        Owner::create([
+            'shop_id' => $request->shop_id,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', '店舗代表者を登録しました。');
+    }
 }

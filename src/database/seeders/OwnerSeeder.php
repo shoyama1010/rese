@@ -15,10 +15,13 @@ class OwnerSeeder extends Seeder
      */
     public function run()
     {
-        Owner::create([
-            'name' => 'Test Owner',
-            'email' => 'owner@example.com',
-            'password' => Hash::make('password123'), // パスワードは任意
-        ]);
+        for ($i = 1; $i <= 20; $i++) {
+            Owner::create([
+                'shop_id' => $i,
+                'name' => '代表者' . $i,
+                'email' => 'owner' . $i . '@example.com',
+                'password' => Hash::make('password'),
+            ]);
+        }
     }
 }

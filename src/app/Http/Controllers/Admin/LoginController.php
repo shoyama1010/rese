@@ -15,26 +15,27 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        // if (Auth::attempt($request->only('email', 'password'))) {
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('admin.dashboard');
-            // return redirect()->route('layouts.admin');
+        if (Auth::guard('admin')->attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate(); // ★重要
+            return redirect()->intended(route('admin.dashboard'));
         }
 
         return back()->withErrors([
-            'email' => 'ログインに失敗しました。',
-        ]);
+            'email' => 'メールアドレスまたはパスワードが正しくありません。',
+        ])->onlyInput('email');
     }
 
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login.form')->with('status', 'ログアウトしました。');
+        return redirect()->route('admin.login.form'); // ★GETフォーム名へ
     }
 }

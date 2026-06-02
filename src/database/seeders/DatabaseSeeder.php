@@ -22,8 +22,14 @@ class DatabaseSeeder extends Seeder
         'role' => 'admin',
     ]);
 
-        $this->call(AreasTableSeeder::class);
-        $this->call(GenresTableSeeder::class);
-        $this->call(ShopsTableSeeder::class);
+        $this->call([
+            AreasTableSeeder::class,
+            GenresTableSeeder::class,
+            ShopsTableSeeder::class,
+            OwnerSeeder::class,
+        ]);
+        // $this->call(AreasTableSeeder::class);
+        // $this->call(GenresTableSeeder::class);
+        // $this->call(ShopsTableSeeder::class);
     }
 }
