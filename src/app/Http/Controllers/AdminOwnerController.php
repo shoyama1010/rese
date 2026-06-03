@@ -15,7 +15,8 @@ class AdminOwnerController extends Controller
      */
     public function index()
     {
-        $owners = Owner::with('shops')->get(); // オーナーと関連する店舗情報も取得
+        $owners = Owner::with('shop')->orderBy('id')->get(); // オーナーと関連する店舗情報も取得
+        
         return view('admin.owners.index', compact('owners'));
     }
 
@@ -26,10 +27,11 @@ class AdminOwnerController extends Controller
     public function show($shop_id)
     {
         $shop = Shop::where('id', $shop_id)
-            ->whereHas('owners', function ($query) {
+            ->whereHas('owner', function ($query) {
                 $query->where('id', Auth::id());
             })->with('reviews')
             ->firstOrFail();
+
         return view('admin.owners.shops.show', compact('shop'));
     }
 
@@ -66,9 +68,55 @@ class AdminOwnerController extends Controller
      */
     public function showOwnerShops($id)
     {
-        $owner = Owner::with('shops')->findOrFail($id);
-        $shops = $owner->shops; // オーナーに関連する店舗リストを取得
+        $owner = Owner::with('shop')->findOrFail($id);
+        $shops = $owner->shop; // オーナーに関連する店舗リストを取得
         return view('admin.owners.shops', compact('owner', 'shops'));
+    }
+
+    /**
+     * 店舗代表者の編集画面を表示する
+     */
+    public function edit($id)
+    {
+        $owner = Owner::findOrFail($id);
+
+        $shops = Shop::whereDoesntHave('owner')
+            ->orWhere('id', $owner->shop_id)
+            ->orderBy('id')
+            ->get();
+
+        return view('admin.owners.edit', compact('owner', 'shops'));
+    }
+
+    /**
+     * 店舗代表者の情報を更新する
+     */
+    public function update(Request $request, $id)
+    {
+        $owner = Owner::findOrFail($id);
+
+        $request->validate([
+            'shop_id' => 'required|exists:shops,id|unique:owners,shop_id,' . $owner->id,
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:owners,email,' . $owner->id,
+            'password' => 'nullable|min:8',
+        ]);
+
+        $data = [
+            'shop_id' => $request->shop_id,
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        $owner->update($data);
+
+        return redirect()
+            ->route('admin.owners.index')
+            ->with('success', '店舗代表者情報を更新しました。');
     }
 
     /**
@@ -85,7 +133,9 @@ class AdminOwnerController extends Controller
 
     public function create()
     {
-        $shops = \App\Models\Shop::doesntHave('owner')->get();
+        // $shops = Shop::orderBy('id')->get();
+        $shops = Shop::whereDoesntHave('owner')
+        ->orderBy('id')->get();
 
         return view('admin.owners.create', compact('shops'));
     }
@@ -110,4 +160,5 @@ class AdminOwnerController extends Controller
             ->route('admin.dashboard')
             ->with('success', '店舗代表者を登録しました。');
     }
+
 }

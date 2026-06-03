@@ -7,7 +7,7 @@
 @section('main')
 <div class="admin-dashboard">
     <header class="admin-dashboard__header">
-        <h1 class="admin-dashboard__logo">ReseManagement</h1>
+        <h1 class="admin-dashboard__logo">ReseControlle</h1>
 
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
@@ -21,7 +21,8 @@
                 <a href="{{ route('admin.owners.create') }}" class="admin-dashboard__link">
                     店舗代表者登録
                 </a>
-
+                <a href="{{ route('admin.owners.index') }}" class="admin-dashboard__link">
+                    店舗代表者一覧
                 <a href="{{ route('admin.reviews.shops') }}" class="admin-dashboard__link">
                     店舗別口コミ一覧
                 </a>
