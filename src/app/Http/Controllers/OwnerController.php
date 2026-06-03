@@ -6,12 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
 
+
 class OwnerController extends Controller
 {
     public function index()
     {
         $shops = Shop::where('owner_id', Auth::id())->get();
         return view('owners.index', compact('shops'));
+    }
+
+    public function dashboard()
+    {
+        $owner = Auth::guard('owner')->user();
+
+        $shop = $owner->shop;
+
+        return view('owner.dashboard', compact('owner', 'shop'));
     }
 
     public function create()
@@ -68,6 +78,51 @@ class OwnerController extends Controller
         ]);
 
         return redirect()->route('owner.dashboard')->with('success', 'Shop updated successfully');
+    }
+    
+    // 予約状況の確認
+    public function reservations()
+    {
+        $owner = Auth::guard('owner')->user();
+        $shop = $owner->shop;
+
+        $reservations = $shop->reservations()
+            ->with('user')
+            ->orderBy('date', 'desc')
+            ->orderBy('time', 'asc')
+            ->get();
+
+        return view('owner.reservations.index', compact('owner', 'shop', 'reservations'));
+    }
+
+    public function editShop()
+    {
+        $owner = Auth::guard('owner')->user();
+        $shop = $owner->shop;
+
+        return view('owner.shop.edit', compact('owner', 'shop'));
+    }
+
+    public function updateShop(Request $request)
+    {
+        $owner = Auth::guard('owner')->user();
+        $shop = $owner->shop;
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:400',
+            'image_url' => 'nullable|string|max:255',
+        ]);
+
+        $shop->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image_url' => $request->image_url,
+        ]);
+
+        return redirect()
+            ->route('owner.dashboard')
+            ->with('success', '店舗情報を更新しました。');
     }
 
     public function destroy($id)

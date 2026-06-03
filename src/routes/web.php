@@ -108,8 +108,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('owner')->name('owner.')->middleware('auth:owner')->group(function () {
     Route::get('/dashboard', [OwnerController::class, 'dashboard'])->name('dashboard');
 
-    Route::resource('shops', ShopsController::class);
-    Route::resource('reservations', ReservationsController::class);
+    Route::get('/shop/edit', [OwnerController::class, 'editShop'])->name('shop.edit');
+    Route::put('/shop/update', [OwnerController::class, 'updateShop'])->name('shop.update');
+    Route::get('/reservations', [OwnerController::class, 'reservations'])
+        ->name('reservations.index');
+    
+    // Route::resource('shops', ShopsController::class);
+    // Route::resource('reservations', ReservationsController::class);
 });
 
 require __DIR__ . '/auth.php';

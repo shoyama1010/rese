@@ -1,0 +1,135 @@
+.owner-page {
+    min-height: 100vh;
+    background: #f3f3f3;
+    padding: 64px 24px;
+}
+
+.owner-card {
+    width: 520px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 40px 48px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+.owner-title {
+    color: #315bff;
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+.owner-info {
+    background: #f7f8ff;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 28px;
+    text-align: left;
+    line-height: 1.8;
+}
+
+.owner-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.owner-menu__link {
+    display: block;
+    background: #315bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    padding: 14px;
+    font-weight: bold;
+}
+
+.owner-menu__link:hover {
+    opacity: 0.85;
+}
+
+.owner-card--wide {
+    width: 620px;
+}
+
+.owner-form__group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.owner-form__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.owner-form__input,
+.owner-form__textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.owner-form__input {
+    height: 42px;
+}
+
+.owner-form__textarea {
+    height: 130px;
+    resize: vertical;
+}
+
+.owner-form__button {
+    width: 100%;
+    height: 44px;
+    background: #315bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.owner-error {
+    color: #e3342f;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.owner-page__back {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.owner-page__back a {
+    color: #315bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.owner-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.owner-table th,
+.owner-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.owner-table th {
+    background: #f5f5f5;
+}
+
+.owner-empty {
+    text-align: center;
+    color: #666;
+    margin-top: 20px;
+}

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\Shop;
 
 class Reservation extends Model
 {
@@ -35,5 +37,15 @@ class Reservation extends Model
         // `Reservation` モデルに対して、`$param` を使って新しい予約を作成し、データベースに保存。
         // `create` メソッドを使うため、`$fillable` に定義された属性のみが保存される。
         return $reservation;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class);
     }
 }
