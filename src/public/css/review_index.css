@@ -1,0 +1,205 @@
+.review-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 56px;
+    width: 90%;
+    margin: 40px auto;
+}
+
+.review-left {
+    width: 460px;
+}
+
+.shop-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 24px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.shop-card h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.shop-card__img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.shop-card__tag {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.shop-card__description {
+    margin-top: 16px;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.shop-card__button {
+    display: inline-block;
+    background: #315bff;
+    color: #fff;
+    padding: 9px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 16px;
+}
+
+.review-header {
+    background: #315bff;
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    padding: 14px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.review-item {
+    background: #fff;
+    border-radius: 6px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review-stars {
+    color: #f59e0b;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.review-text {
+    margin-top: 8px;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+.review-user {
+    color: #666;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.review-image {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 12px;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.review-edit-btn,
+.review-delete-btn {
+    display: inline-block;
+    border: none;
+    border-radius: 5px;
+    padding: 9px 16px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.review-edit-btn {
+    background: #315bff;
+}
+
+.review-delete-btn {
+    background: #3498db;
+}
+
+.review-empty {
+    background: #fff;
+    border-radius: 6px;
+    padding: 18px;
+    color: #666;
+}
+
+.review-right {
+    width: 460px;
+}
+
+.reservation-card {
+    background: #315bff;
+    color: #fff;
+    border-radius: 6px;
+    padding: 28px 28px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.reservation-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.reservation-input {
+    display: block;
+    width: 100%;
+    height: 36px;
+    min-height: 36px;
+    margin-bottom: 12px;
+    padding: 0 10px;
+    background: #fff;
+    border: none;
+    border-radius: 3px;
+    color: #333;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+select.reservation-input {
+    appearance: auto;
+}
+
+.reservation-confirm {
+    background: #4d7cff;
+    padding: 18px;
+    border-radius: 4px;
+    margin-top: 12px;
+}
+
+.reservation-confirm p {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 10px;
+}
+
+.reservation-confirm span {
+    width: 64px;
+}
+
+.reservation-button {
+    width: calc(100% + 56px);
+    height: 56px;
+    margin-left: -28px;
+    margin-top: 80px;
+    border: none;
+    background: #003cff;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.error__lists {
+    background: #fff;
+    color: #e3342f;
+    padding: 12px 18px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}

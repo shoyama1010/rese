@@ -11,6 +11,7 @@ class Owner extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'shop_id',
         'name',
         'email',
         'password',

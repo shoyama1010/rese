@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\MultiLoginRequest;
 
 class MultiLoginController extends Controller
 {
@@ -12,19 +13,13 @@ class MultiLoginController extends Controller
         return view('auth.multi-login');
     }
 
-    public function login(Request $request)
+    public function login(MultiLoginRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-            'guard' => ['required', 'in:admin,owner'],
-        ]);
-
-        $guard = $credentials['guard'];
+        $guard = $request->guard;
 
         $loginData = [
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
+            'email' => $request->email,
+            'password' => $request->password,
         ];
 
         if (Auth::guard($guard)->attempt($loginData)) {
@@ -40,9 +35,9 @@ class MultiLoginController extends Controller
         }
 
         return back()
+            ->withInput($request->only('email', 'guard'))
             ->withErrors([
                 'auth' => 'メールアドレス、パスワード、または役職が正しくありません。',
-            ])
-            ->onlyInput('email', 'guard');
+            ]);
     }
 }

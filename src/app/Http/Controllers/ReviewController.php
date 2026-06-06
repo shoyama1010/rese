@@ -6,23 +6,24 @@ use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ReviewRequest;
 
 class ReviewController extends Controller
 {
     // 全ての口コミを表示
-    // public function index(Shop $shop)
-    // {
-    //     $reviews = $shop->reviews()->with('user')->first();
-    //     // $reviews = Review::where('shop_id', $shop->id)->first();
-    //     return view('review_edit', compact('reviews', 'shop'));
-    // }
+    public function index(Shop $shop)
+    {
+        $reviews = $shop->reviews()->with('user')->first();
+        // $reviews = Review::where('shop_id', $shop->id)->first();
+        return view('review_edit', compact('reviews', 'shop'));
+    }
     // 特定の店舗のレビューを表示するメソッド
     public function showReviewsByShop($shopId)
     {
         // 店舗の存在確認と関連するレビューの取得
-        $shop = Shop::with(['reviews.user'])->findOrFail($shopId); // 店舗と関連するレビューを取得
-        $reviews = $shop->reviews; // リレーションを利用して取得
-        // データをビューに渡す
+        $shop = Shop::with(['area', 'genre', 'reviews.user'])->findOrFail($shopId);
+        $reviews = $shop->reviews;
+        // return view('reviews.index', compact('shop', 'reviews'));
         return view('review_edit', compact('shop', 'reviews'));
     }
 
@@ -30,17 +31,11 @@ class ReviewController extends Controller
     public function create(Shop $shop)
     {
         return view('review_create', compact('shop'));
+        // return view('reviews.create', compact('shop'));
     }
     // 口コミをデータベースに保存するメソッド
-    public function store(Request $request, Shop $shop)
+    public function store(ReviewRequest $request, Shop $shop)
     {
-        // 入力値のバリデーション
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'review_text' => 'required|string|max:400',
-            'image_path' => 'nullable|image|mimes:jpeg,png|max:2048',
-        ]);
-
         // 画像の保存処理
         $imagePath = null;
 
@@ -56,28 +51,21 @@ class ReviewController extends Controller
             'review_text' => $request->review_text,
             'image_path' => $imagePath,
         ]);
-
-        return redirect()->route('reviews.by_shop',$shop->id);
+        return redirect()->route('reviews.by_shop', $shop->id);
     }
 
     // 口コミ編集フォームを表示
     public function edit(Review $review)
     {
         $this->authorize('update', $review);
-        return view('review_edit', compact('review', 'shop'));
+        $shop = $review->shop; // 口コミに関連する店舗を取得
+        // return view('review_edit', compact('review', 'shop'));
+        return view('reviews.edit', compact('review', 'shop'));
     }
-
     // 口コミを更新するメソッド
-    public function update(Request $request, Review $review)
+    public function update(ReviewRequest $request, Review $review)
     {
         $this->authorize('update', $review);
-
-        $request->validate([
-            'rating' => 'required|integer|min:1|max:5',
-            'review_text' => 'required|string|max:400',
-            'image_path' => 'nullable|image|mimes:jpeg,png',
-        ]);
-
         $imagePath = $review->image_path;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('reviews', 'public');

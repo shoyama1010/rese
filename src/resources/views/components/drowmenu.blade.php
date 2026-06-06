@@ -8,10 +8,10 @@
 	</form>
 
 	<a href="{{ route('mypage') }}" class="menu__item">Mypage</a>
-	<a href="{{ route('multi.login.form') }}" class="menu__item">Management Login</a>
+	<a href="{{ route('multi.login.form') }}" class="menu__item">Multi-Login</a>
 	@else
 	<a href="{{ route('register') }}" class="menu__item">Registration</a>
 	<a href="{{ route('login') }}" class="menu__item">Login</a>
-	<a href="{{ route('multi.login.form') }}" class="menu__item">Management Login</a>
+	<a href="{{ route('multi.login.form') }}" class="menu__item">Multi-Login</a>
 	@endif
 </div>

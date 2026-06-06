@@ -27,10 +27,7 @@ class LoginController extends Controller
             // ✅ API 用に JSON を返す
             if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
                 return response()->noContent(200);
-                // return response()->json([
-                //     'ok' => true,
-                //     'admin' => Auth::guard('admin')->user()->only(['id', 'name', 'email'])
-                // ]);
+                
             }
             // Blade 用（ログイン後ダッシュボードへ）
             return redirect()->intended(route('admin.dashboard'));
@@ -38,10 +35,7 @@ class LoginController extends Controller
         // 失敗時も API と 画面 で分岐
         if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
             return response()->json(['message' => 'Invalid credentials'], 422);
-            // return response()->json([
-            //     'ok' => false,
-            //     'message' => 'メールアドレスまたはパスワードが正しくありません。',
-            // ], 401);
+           
         }
 
         return back()->withErrors([
@@ -57,10 +51,10 @@ class LoginController extends Controller
 
         if ($request->expectsJson() || $request->wantsJson() || $request->ajax()) {
             return response()->noContent(); // 204
-            // return response()->json(['ok' => true]); // ✅ JSON で返す
+            
         }
 
         // ★ 画面（Blade）ならログイン画面へ
-        return redirect()->route('admin.login.form');
+        return redirect()->route('multi.login.form');
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Owner;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Admin\OwnerUpdateRequest;
+use App\Http\Requests\Admin\OwnerStoreRequest;
 
 class AdminOwnerController extends Controller
 {
@@ -91,16 +93,9 @@ class AdminOwnerController extends Controller
     /**
      * 店舗代表者の情報を更新する
      */
-    public function update(Request $request, $id)
+    public function update(OwnerUpdateRequest $request, $id)
     {
         $owner = Owner::findOrFail($id);
-
-        $request->validate([
-            'shop_id' => 'required|exists:shops,id|unique:owners,shop_id,' . $owner->id,
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:owners,email,' . $owner->id,
-            'password' => 'nullable|min:8',
-        ]);
 
         $data = [
             'shop_id' => $request->shop_id,
@@ -140,15 +135,8 @@ class AdminOwnerController extends Controller
         return view('admin.owners.create', compact('shops'));
     }
 
-    public function store(Request $request)
+    public function store(OwnerStoreRequest $request)
     {
-        $request->validate([
-            'shop_id' => 'required|exists:shops,id|unique:owners,shop_id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:owners,email',
-            'password' => 'required|min:8',
-        ]);
-
         Owner::create([
             'shop_id' => $request->shop_id,
             'name' => $request->name,
@@ -157,7 +145,7 @@ class AdminOwnerController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.dashboard')
+            ->route('admin.owners.index')
             ->with('success', '店舗代表者を登録しました。');
     }
 

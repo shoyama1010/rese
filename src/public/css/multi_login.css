@@ -65,3 +65,9 @@
     font-size: 13px;
     margin-top: 6px;
 }
+
+.error {
+    color: #e3342f;
+    font-size: 13px;
+    margin-bottom: 12px;
+}

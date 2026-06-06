@@ -1,0 +1,77 @@
+.review-form-page {
+    min-height: 100vh;
+    background: #f3f3f3;
+    padding: 64px 24px;
+}
+
+.review-form-card {
+    width: 560px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 40px 48px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.review-form-title {
+    color: #315bff;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 28px;
+}
+
+.review-form-group {
+    margin-bottom: 20px;
+}
+
+.review-form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.review-form-input,
+.review-form-textarea {
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 14px;
+}
+
+.review-form-input {
+    height: 42px;
+}
+
+.review-form-textarea {
+    height: 140px;
+    resize: vertical;
+}
+
+.review-form-error {
+    color: #e3342f;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.review-form-button {
+    width: 100%;
+    height: 44px;
+    background: #315bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.review-form-back {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.review-form-back a {
+    color: #315bff;
+    font-weight: bold;
+    text-decoration: none;
+}

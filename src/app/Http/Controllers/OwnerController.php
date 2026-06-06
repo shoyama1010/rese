@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Owner\ShopUpdateRequest;
+use App\Mail\ReservationNotificationMail;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Mail;
 
 
 class OwnerController extends Controller
@@ -79,7 +83,7 @@ class OwnerController extends Controller
 
         return redirect()->route('owner.dashboard')->with('success', 'Shop updated successfully');
     }
-    
+
     // 予約状況の確認
     public function reservations()
     {
@@ -103,16 +107,10 @@ class OwnerController extends Controller
         return view('owner.shop.edit', compact('owner', 'shop'));
     }
 
-    public function updateShop(Request $request)
+    public function updateShop(ShopUpdateRequest $request)
     {
         $owner = Auth::guard('owner')->user();
         $shop = $owner->shop;
-
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:400',
-            'image_url' => 'nullable|string|max:255',
-        ]);
 
         $shop->update([
             'name' => $request->name,
@@ -131,6 +129,24 @@ class OwnerController extends Controller
         $shop->delete();
 
         return redirect()->route('owner.dashboard')->with('success', 'Shop deleted successfully');
+    }
+
+    public function sendReservationMail($reservationId)
+    {
+        $owner = Auth::guard('owner')->user();
+        $shop = $owner->shop;
+
+        $reservation = Reservation::with(['user', 'shop'])
+            ->where('id', $reservationId)
+            ->where('shop_id', $shop->id)
+            ->firstOrFail();
+
+        Mail::to($reservation->user->email)
+            ->send(new ReservationNotificationMail($reservation));
+
+        return redirect()
+            ->route('owner.reservations.index')
+            ->with('success', '予約者へメールを送信しました。');
     }
 }
 

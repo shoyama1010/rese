@@ -21,6 +21,8 @@ class LoginController extends Controller
         ]);
 
         if (Auth::guard('owner')->attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
+            
             return redirect()->route('owner.dashboard');
         }
 
@@ -32,6 +34,10 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('owner')->logout();
-        return redirect('/owner/login');
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect()->route('multi.login.form');
     }
 }

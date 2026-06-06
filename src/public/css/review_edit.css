@@ -301,3 +301,34 @@
 .review-delete-btn {
     background: #e74c3c;
 }
+
+.review-empty {
+    padding: 20px 0;
+    color: #555;
+}
+
+.review-delete-btn {
+    background-color: #3498db;
+}
+
+.review-right .reservation-card__date-input {
+    width: 90%;
+    height: 30px;
+    box-sizing: border-box;
+}
+
+.review-right .reservation-card__pull-down select {
+    width: 90%;
+    height: 36px;
+    box-sizing: border-box;
+    display: block;
+}
+
+.review-right .reservation-card {
+    overflow: hidden;
+}
+
+.review-right .reservation-card__content-review {
+    width: 100%;
+    box-sizing: border-box;
+}

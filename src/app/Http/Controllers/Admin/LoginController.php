@@ -36,6 +36,6 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login.form'); // ★GETフォーム名へ
+        return redirect()->route('multi.login.form'); // ★GETフォーム名へ
     }
 }

@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="{{ asset('css/review_create.css') }}">
     <link rel="stylesheet" href="{{ asset('css/review_edit.css') }}">
     <link rel="stylesheet" href="{{ asset('css/review.css') }}">
-
-    @yield('css')
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    
+        @yield('css')
+        <script src="{{ asset('js/app.js') }}" defer>
+    </script>
 </head>
 
 <body>
@@ -28,6 +29,5 @@
         @yield('main')
     </div>
 </body>
-
 
 </html>

@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [PaymentController::class, 'processPayment'])->name('checkout.process');
 });
 
+
 /*
 |--------------------------------------------------------------------------
 | マルチログイン
@@ -110,8 +111,12 @@ Route::prefix('owner')->name('owner.')->middleware('auth:owner')->group(function
 
     Route::get('/shop/edit', [OwnerController::class, 'editShop'])->name('shop.edit');
     Route::put('/shop/update', [OwnerController::class, 'updateShop'])->name('shop.update');
+   
     Route::get('/reservations', [OwnerController::class, 'reservations'])
         ->name('reservations.index');
+
+    Route::post('/reservations/{reservation}/send-mail', [OwnerController::class, 'sendReservationMail'])
+        ->name('reservations.send_mail');
     
     // Route::resource('shops', ShopsController::class);
     // Route::resource('reservations', ReservationsController::class);

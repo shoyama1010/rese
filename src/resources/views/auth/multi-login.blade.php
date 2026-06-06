@@ -7,14 +7,15 @@
 @section('main')
 <div class="multi-login">
   <div class="multi-login__card">
-    <h2 class="multi-login__title">Controlle-Login</h2>
+    <h2 class="multi-login__title">Multi-Login</h2>
 
-    @error('auth')
-    <p class="multi-login__error">{{ $message }}</p>
-    @enderror
 
     <form method="POST" action="{{ route('multi.login') }}">
       @csrf
+
+      @error('auth')
+      <p class="multi-login__error">{{ $message }}</p>
+      @enderror
 
       <div class="multi-login__group">
         <input
