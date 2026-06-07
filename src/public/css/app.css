@@ -96,7 +96,6 @@
     margin-bottom: 30px;
 }
 
-
 /* 認証 */
 .auth-card {
     background: #ffffff;
@@ -236,7 +235,6 @@
     text-align: center;
 }
 
-
 .shops {
     width: calc(100vw - 200px);
 }
@@ -294,11 +292,17 @@
     fill: #eee;
 }
 
-
-
 /* 詳細 */
+.main__flex {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px 70px;
+}
+
 .shop-detail {
     width: 50%;
+    /* width: 46%; */
 }
 
 .shop-detail__link {
@@ -314,34 +318,44 @@
 .shop-detail__ttl {
     font-size: 28px;
     margin-left: 12px;
+    font-size: 28px;
 }
 
 .shop-detail__img {
     margin-top: 30px;
+    width: 85%;
+    height: 360px;
+    object-fit: cover;
+    margin-top: 25px;
 }
 
 .shop-detail__txt {
-    margin-top: 25px;
-    line-height: 24px;
+    margin-top: 28px;
+    line-height: 1.9;
+    font-size: 16px;
 }
 
 /* 予約（右側） */
 .reservation {
-    width: 50%;
+    width: 42%;
+    margin-left: auto;
+    transform: translateY(-30px);
+    height: 300px;
 }
 
 .reservation-card {
     background: #305dff;
     border-radius: 5px;
     box-shadow: 2px 2px 4px gray;
-    height: 70vh;
-    margin: 64px auto;
+    height: 690px;
+    /* margin: 64px auto; */
+    margin: 0;
     position: relative;
-    width: 85%;
+    width: 100%;
 }
 
 .reservation-card__content {
-    padding: 36px 0 0 28px;
+    padding: 36px 0 0 32px;
 }
 
 .reservation-card__content__ttl {
@@ -363,21 +377,13 @@
     margin-top: 14px;
 }
 
-.reservation-card__pull-down select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding: 7px 30px 7px 10px;
-    height: 30px;
-    width: 90%;
+.reservation-card__pull-down select {    
+    width: 100%;
+    height: 36px;
+    margin-bottom: 14px;
     border-radius: 5px;
     border: none;
-    background-image: url(../img/triangle.png);
-    background-repeat: no-repeat;
-    background-size: 12px 10px;
-    background-position: right 10px center;
-    line-height: 1.1em;
-    outline: none;
+    padding-left: 10px;
 }
 
 .reservation-btn {
@@ -446,7 +452,6 @@
     margin-bottom: 30px;
 }
 
-
 /* sort */
 .sort-box {
     /* margin-bottom: 100px; */
@@ -455,10 +460,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;  /* 上下の余白を追加 */
+    padding: 10px; /* 上下の余白を追加 */
     margin-top: -30px; /* 必要に応じて調整 */
     position: relative;
-    z-index: 1;  /* 他の要素より前面に表示されるように */
+    z-index: 1; /* 他の要素より前面に表示されるように */
 }
 
 .sort-box label {

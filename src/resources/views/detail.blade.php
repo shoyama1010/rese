@@ -9,9 +9,9 @@
             <h2 class="shop-detail__ttl">{{$shop->name}}</h2>
         </div>
         <img class="shop-detail__img" src="{!! $shop->image_url !!}" alt="shop-img" width="50%" />
-
+        <!-- <img class="shop-detail__img" src="{{ $shop->image_url }}" alt="shop-img"> -->
+        
         <p class="shop-detail__txt">#{{$shop->area->name}}&nbsp;#{{$shop->genre->name}}</p>
-
         <p class="shop-detail__txt">{{$shop->description}}</p>
 
         <!-- 口コミ（レビー）機能に遷移 -->
