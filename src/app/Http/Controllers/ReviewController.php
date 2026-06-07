@@ -73,11 +73,11 @@ class ReviewController extends Controller
 
         $review->update([
             'rating' => $request->rating,
-            'comment' => $request->review_text,
+            'review_text' => $request->review_text,
             'image_path' => $imagePath,
         ]);
         // 店舗詳細ページにリダイレクト
-        return redirect()->route('shop.detail', $review->id)->with('message', '口コミを更新しました');
+        return redirect()->route('shop.detail', $review->shop_id)->with('message', '口コミを更新しました');
     }
 
     // 口コミを削除するメソッド
