@@ -4,4 +4,4 @@ docker/mysql/data/*
 node_modules/
 admin-frontend/node_modules/
 admin-frontend/.next/
-.next/
+.next/src/.env.testing
