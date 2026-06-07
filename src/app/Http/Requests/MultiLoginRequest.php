@@ -16,7 +16,7 @@ class MultiLoginRequest extends FormRequest
         return [
             'email' => ['required', 'email'],
             'password' => ['required', 'string'],
-            'role' => ['required', 'in:admin,owner'],
+            'guard' => ['required', 'in:admin,owner'],
         ];
     }
 
@@ -26,8 +26,8 @@ class MultiLoginRequest extends FormRequest
             'email.required' => 'メールアドレスを入力してください。',
             'email.email' => 'メールアドレス形式で入力してください。',
             'password.required' => 'パスワードを入力してください。',
-            'role.required' => '役職を選択してください。',
-            'role.in' => '役職の選択が正しくありません。',
+            'guard.required' => '役職を選択してください。',
+            'guard.in' => '役職の選択が正しくありません。',
         ];
     }
 }
