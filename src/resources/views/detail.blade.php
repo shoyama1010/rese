@@ -20,7 +20,6 @@
         <a href="{{ route('reviews.by_shop', ['shopId' => $shop->id]) }}" class="review-link review-link--list">
             全ての口コミ情報を見る
         </a>
-
     </div>
 
     <!-- 右側 -->
