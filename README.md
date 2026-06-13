@@ -34,7 +34,7 @@ Laravelを用いた実践的なWebアプリケーション開発として、
 - CSS
 - JavaScript
 
-## フロントエンド
+## フロントエンド(開発中)
 
 - Next.js
 - React
@@ -140,7 +140,7 @@ http://localhost:8025
 
 <img width="3149" height="2393" alt="mermaid-diagram (3)" src="https://github.com/user-attachments/assets/90ec6617-b2a7-4131-b362-d99bf5bb4e96" />
 
-# 実装機能
+# １．実装機能（バックエンドでの表示）
 
 ## 一般ユーザー機能
 
@@ -209,6 +209,16 @@ FormRequestを採用しています。
 - 口コミ投稿
 - 口コミ編集
 - CSVアップロード
+
+# ２．実装機能（フロントエンドでの表示）
+
+## 一般ユーザー機能
+- ログイン
+- 店舗一覧表示
+- 店舗検索
+- エリア検索
+- ジャンル検索
+
 
 # テスト
 
