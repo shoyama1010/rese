@@ -1,156 +1,168 @@
-// import Image from "next/image";
-
-// export default function Home() {
-//   return (
-//     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-//       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-//         <Image
-//           className="dark:invert"
-//           src="/next.svg"
-//           alt="Next.js logo"
-//           width={180}
-//           height={38}
-//           priority
-//         />
-//         <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-//           <li className="mb-2 tracking-[-.01em]">
-//             Get started by editing{" "}
-//             <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-//               app/page.tsx
-//             </code>
-//             .
-//           </li>
-//           <li className="tracking-[-.01em]">
-//             Save and see your changes instantly.
-//           </li>
-//         </ol>
-
-//         <div className="flex gap-4 items-center flex-col sm:flex-row">
-//           <a
-//             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-//             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             <Image
-//               className="dark:invert"
-//               src="/vercel.svg"
-//               alt="Vercel logomark"
-//               width={20}
-//               height={20}
-//             />
-//             Deploy now
-//           </a>
-//           <a
-//             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-//             href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Read our docs
-//           </a>
-//         </div>
-//       </main>
-//       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/file.svg"
-//             alt="File icon"
-//             width={16}
-//             height={16}
-//           />
-//           Learn
-//         </a>
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/window.svg"
-//             alt="Window icon"
-//             width={16}
-//             height={16}
-//           />
-//           Examples
-//         </a>
-//         <a
-//           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-//           href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           <Image
-//             aria-hidden
-//             src="/globe.svg"
-//             alt="Globe icon"
-//             width={16}
-//             height={16}
-//           />
-//           Go to nextjs.org →
-//         </a>
-//       </footer>
-//     </div>
-//   );
-// }
-
 "use client";
-import { useState } from "react";
+
+import { useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
-import { initCsrf } from "@/lib/auth";
-import { useRouter } from "next/navigation";
 
-export default function Page() {
-  const [result, setResult] = useState("");
-  const [dashboard, setDashboard] = useState<any>(null);
+type Shop = {
+  id: number;
+  name: string;
+  area?: { name: string };
+  genre?: { name: string };
+  image_url?: string;
+  image?: string;
+};
 
-  const login = async () => {
-    try {
-      // ① CSRFクッキーをもらう
-      await initCsrf();
+export default function HomePage() {
+  const [shops, setShops] = useState<Shop[]>([]);
+  const [keyword, setKeyword] = useState("");
+  const [area, setArea] = useState("all");
+  const [genre, setGenre] = useState("all");
+  const [sort, setSort] = useState("random");
 
-      // ② ログインAPIを叩く
-      await api("/admin/login", {
-        method: "POST",
-        body: JSON.stringify({
-          email: "admin@example.com",
-          password: "admin1234",
-        }),
-      });
+  useEffect(() => {
+    const fetchShops = async () => {
+      const data = await api("/api/shops");
+      setShops(data.shops ?? []);
+    };
 
-      setResult("LOGIN OK");
+    fetchShops();
+  }, []);
 
-      // ③ ログイン成功後にダッシュボードを叩く
-      const data = await api("/api/admin/dashboard", {
-        method: "GET",
-      });
-      setDashboard(data);
+  const areas = [
+    ...new Set(shops.map((shop) => shop.area?.name).filter(Boolean)),
+  ];
 
-    } catch (e: any) {
-      setResult("LOGIN ERR: " + e.message);
+  const genres = [
+    ...new Set(shops.map((shop) => shop.genre?.name).filter(Boolean)),
+  ];
+
+  const filteredShops = useMemo(() => {
+    let result = [...shops];
+
+    if (area !== "all") {
+      result = result.filter((shop) => shop.area?.name === area);
     }
-  };
+
+    if (genre !== "all") {
+      result = result.filter((shop) => shop.genre?.name === genre);
+    }
+
+    if (keyword) {
+      result = result.filter((shop) =>
+        shop.name.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+
+    if (sort === "name") {
+      result.sort((a, b) => a.name.localeCompare(b.name, "ja"));
+    }
+
+    if (sort === "reverse") {
+      result.sort((a, b) => b.name.localeCompare(a.name, "ja"));
+    }
+
+    if (sort === "random") {
+      result.sort(() => Math.random() - 0.5);
+    }
+
+    return result;
+  }, [shops, area, genre, keyword, sort]);
 
   return (
-    <main>
-      <button onClick={login}>ログイン</button>
-      <pre>{result}</pre>
-
-      {dashboard && (
-        <div>
-          <h1>{dashboard.title}</h1>
-          <p>{dashboard.message}</p>
-          <a href={dashboard.links.csv}>CSVインポートページへ</a>
+    <main className="min-h-screen bg-[#eeeeee] px-6 py-8">
+      {/* <header className="mx-auto flex max-w-[1160px] items-center justify-between"> */}
+      <header className="mx-auto flex max-w-[1230px] items-center justify-between">
+        <div className="flex items-center gap-4">
+          {/* <button className="flex h-9 w-9 items-center justify-center rounded bg-[#305dff] text-white shadow-md">
+            ≡
+          </button> */}
+          <button className="flex h-10 w-10 items-center justify-center rounded bg-[#305dff] text-white shadow-md">
+            ☰
+          </button>
+          <h1 className="text-3xl font-bold text-[#305dff]">Rese</h1>
         </div>
-      )}
-    </main>
+
+        <div className="flex h-11 w-[540px] items-center rounded bg-white shadow-md">
+          <select
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            className="h-full w-[120px] border-r px-3 text-sm outline-none"
+          >
+            <option value="all">All area</option>
+            {areas.map((area) => (
+              <option key={area} value={area}>
+                {area}
+              </option>
+            ))}
+          </select>
+
+          <select
+            value={genre}
+            onChange={(e) => setGenre(e.target.value)}
+            className="h-full w-[120px] border-r px-3 text-sm outline-none"
+          >
+            <option value="all">All genre</option>
+            {genres.map((genre) => (
+              <option key={genre} value={genre}>
+                {genre}
+              </option>
+            ))}
+          </select>
+
+          <div className="flex flex-1 items-center px-3">
+            <span className="mr-2 text-gray-300">⌕</span>
+            <input
+              placeholder="Search ..."
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              className="w-full text-sm outline-none"
+            />
+          </div>
+        </div>
+      </header>
+
+      <div className="mx-auto mt-8 flex max-w-[1160px] justify-center">
+        <label className="mr-3 text-base">並び替え：</label>
+        <select
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+          className="h-9 w-[130px] rounded border border-gray-300 bg-white px-3 outline-none"
+        >
+          <option value="random">ランダム</option>
+          <option value="name">名前順</option>
+          <option value="reverse">名前逆順</option>
+        </select>
+      </div>
+
+      <section className="mx-auto mt-8 grid max-w-[1160px] grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        {filteredShops.map((shop) => (
+          <article
+            key={shop.id}
+            // className="overflow-hidden rounded bg-white shadow-md"
+            className="overflow-hidden rounded bg-white shadow"
+          >
+            <img
+              src={shop.image_url ?? shop.image ?? "/no-image.png"}
+              alt={shop.name}
+              // className="h-[135px] w-full object-cover"
+              className="h-[120px] w-full object-cover"
+            />
+
+            <div className="p-5">
+              <h2 className="mb-1 text-lg font-bold">{shop.name}</h2>
+
+              <p className="mb-3 text-sm">
+                #{shop.area?.name} #{shop.genre?.name}
+              </p>
+
+              <button className="rounded bg-[#305dff] px-4 py-1.5 text-sm text-white">
+              {/* <button className="rounded-md bg-[#305dff] px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition"> */}
+                詳しくみる
+              </button>
+            </div>
+          </article>
+        ))}
+      </section>
+    </main >
   );
 }

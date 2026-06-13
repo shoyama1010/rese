@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Shop;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -44,5 +46,13 @@ Route::get('/admin/dashboard', function () {
         'links' => [
             'csv' => '/admin/csv/import'
         ]
+    ]);
+});
+
+Route::get('/shops', function () {
+    $shops = Shop::with(['area', 'genre'])->get();
+
+    return response()->json([
+        'shops' => $shops,
     ]);
 });

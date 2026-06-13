@@ -20,15 +20,21 @@ export default function AdminLoginPage() {
 
     try {
       // ① CSRF cookie を取得
-      await initCsrf();
-
-      // ② Laravel のログイン API を叩く
-      await api("/admin/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
+      await api("/sanctum/csrf-cookie", {
+        method: "GET",
       });
 
-      // ③ 成功したらダッシュボードへ遷移
+      // ② ログインAPIを叩く
+      await api("/multi/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          guard: "admin",
+        }),
+      });
+
+      // ③ 成功したら遷移
       router.push("/admin/dashboard");
     } catch (err: any) {
       setError("ログインに失敗しました: " + err.message);
