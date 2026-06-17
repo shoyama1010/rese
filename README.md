@@ -132,7 +132,7 @@ http://localhost:8081
 
 http://localhost:8025
 
-## 本番環境
+## 本番環境（AWS：EC2）
 
 http://172.31.42.205（IPv4 アドレス）
 
